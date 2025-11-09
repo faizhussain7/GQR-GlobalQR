@@ -24,10 +24,12 @@ A **next-generation global QR scanner app** built with **React Native (Expo)** a
 
 ### 🎨 Beautiful UI/UX
 - Modern, minimal design with smooth animations
-- Dark & Light mode support
+- Built with Gluestack UI component library
+- Dark & Light mode support with theme toggle
 - Animated scanning frame with laser effect
 - Haptic feedback on successful scans
 - Gradient headers and card-based results
+- Lucide icons for consistent iconography
 
 ### 📱 Smart Features
 - **Intelligent Classification** - Automatically detect QR type
@@ -46,18 +48,79 @@ A **next-generation global QR scanner app** built with **React Native (Expo)** a
 
 ## 📦 Tech Stack
 
+### Core Framework
 | Purpose | Library | Version |
 |---------|---------|---------|
-| Framework | React Native + Expo | 54.x |
-| Navigation | Expo Router | 6.x |
-| Camera | react-native-vision-camera | 4.x |
-| QR Scanner | vision-camera-code-scanner | 0.2.x |
-| Animations | Moti + Reanimated | 4.x |
-| State | Zustand | 5.x |
-| Storage | AsyncStorage | 2.x |
-| Permissions | react-native-permissions | 5.x |
-| Haptics | expo-haptics | 15.x |
-| Language | TypeScript | 5.x |
+| Framework | React Native + Expo | 54.0.22 |
+| React | React | 19.1.0 |
+| Language | TypeScript | 5.9.2 |
+
+### Navigation & Routing
+| Purpose | Library | Version |
+|---------|---------|---------|
+| File-based Routing | Expo Router | 6.0.14 |
+| Navigation | React Navigation | 7.x |
+| Bottom Tabs | @react-navigation/bottom-tabs | 7.4.0 |
+
+### Camera & QR Scanning
+| Purpose | Library | Version |
+|---------|---------|---------|
+| Camera | react-native-vision-camera | 4.7.2 |
+| Worklets | react-native-worklets-core | 1.6.2 |
+| Worklets Support | react-native-worklets | 0.5.1 |
+
+### UI & Styling
+| Purpose | Library | Version |
+|---------|---------|---------|
+| UI Components | @gluestack-ui/themed | 1.1.64 |
+| UI Config | @gluestack-ui/config | 1.1.20 |
+| Icons | lucide-react-native | 0.552.0 |
+| Vector Icons | @expo/vector-icons | 15.0.3 |
+| Gradients | expo-linear-gradient | 15.0.7 |
+| SVG | react-native-svg | 15.12.1 |
+| Images | expo-image | 3.0.10 |
+
+### Animations & Gestures
+| Purpose | Library | Version |
+|---------|---------|---------|
+| Animations | Moti | 0.29.0 |
+| Animations | react-native-reanimated | 4.1.1 |
+| Gestures | react-native-gesture-handler | 2.28.0 |
+
+### State & Storage
+| Purpose | Library | Version |
+|---------|---------|---------|
+| State Management | Zustand | 5.0.2 |
+| Local Storage | @react-native-async-storage/async-storage | 2.2.0 |
+
+### Expo Modules
+| Purpose | Library | Version |
+|---------|---------|---------|
+| Clipboard | expo-clipboard | 8.0.7 |
+| Linking | expo-linking | 8.0.8 |
+| Web Browser | expo-web-browser | 15.0.9 |
+| Intent Launcher | expo-intent-launcher | 13.0.7 |
+| Haptics | expo-haptics | 15.0.7 |
+| Constants | expo-constants | 18.0.10 |
+| Fonts | expo-font | 14.0.9 |
+| Splash Screen | expo-splash-screen | 31.0.10 |
+| Status Bar | expo-status-bar | 3.0.8 |
+| Symbols | expo-symbols | 1.0.7 |
+| System UI | expo-system-ui | 6.0.8 |
+
+### Platform Support
+| Purpose | Library | Version |
+|---------|---------|---------|
+| Safe Areas | react-native-safe-area-context | 5.6.0 |
+| Screens | react-native-screens | 4.16.0 |
+| Web Support | react-native-web | 0.21.0 |
+
+### Development Tools
+| Purpose | Library | Version |
+|---------|---------|---------|
+| Linting | ESLint | 9.25.0 |
+| ESLint Config | eslint-config-expo | 10.0.0 |
+| Type Definitions | @types/react | 19.1.0 |
 
 ---
 
@@ -72,8 +135,8 @@ A **next-generation global QR scanner app** built with **React Native (Expo)** a
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd global-qr-scanner
+git clone https://github.com/faizhussain7/GQR---GlobalQR.git
+cd GQR---GlobalQR
 
 # Install dependencies
 npm install
@@ -109,7 +172,7 @@ npm run ios
 ## 📂 Project Structure
 
 ```
-global-qr-scanner/
+GQR---GlobalQR/
 ├── app/                          # Expo Router (file-based routing)
 │   ├── index.tsx                # Main scanner screen
 │   ├── result.tsx               # Scan result screen
@@ -120,7 +183,10 @@ global-qr-scanner/
 │   ├── components/              # Reusable UI components
 │   │   ├── QRScannerView.tsx   # Camera + scanner component
 │   │   ├── UPIResultCard.tsx   # UPI payment display
-│   │   └── GenericResultCard.tsx # Generic QR display
+│   │   ├── GenericResultCard.tsx # Generic QR display
+│   │   ├── FuturisticBackground.tsx # Background component
+│   │   ├── FuturisticCard.tsx  # Card component
+│   │   └── ThemeToggle.tsx     # Theme switcher
 │   │
 │   ├── screens/                 # Screen components
 │   │   ├── ScannerScreen.tsx   # Main scanning interface
@@ -129,15 +195,26 @@ global-qr-scanner/
 │   │
 │   ├── utils/                   # Utility functions
 │   │   ├── qrParser.ts         # QR classification logic
-│   │   └── upiHandler.ts       # UPI payment utilities
+│   │   ├── upiHandler.ts       # UPI payment utilities
+│   │   ├── upi-apps.json       # UPI apps configuration
+│   │   └── scrapeUpiApps.js   # UPI apps scraper
 │   │
-│   └── store/                   # State management
-│       └── useScanStore.ts     # Zustand store
+│   ├── store/                   # State management
+│   │   └── useScanStore.ts     # Zustand store
+│   │
+│   └── theme/                   # Theme configuration
+│       ├── colorModeManager.tsx # Color mode manager
+│       └── colors.ts           # Color definitions
 │
 ├── assets/                      # Images, icons, fonts
+│   └── images/                  # App icons and images
+├── android/                     # Android native project
 ├── app.json                     # Expo configuration
 ├── package.json                 # Dependencies
-└── tsconfig.json               # TypeScript configuration
+├── tsconfig.json               # TypeScript configuration
+├── eslint.config.js            # ESLint configuration
+├── gluestack-ui.config.ts      # Gluestack UI config
+└── README.md                    # This file
 ```
 
 ---
@@ -146,8 +223,9 @@ global-qr-scanner/
 
 ### 1. **QR Code Scanning**
 - Uses `react-native-vision-camera` for high-performance camera access
-- `vision-camera-code-scanner` provides native QR decoding
-- Frame processor optimized for real-time scanning
+- Native QR decoding with optimized frame processing
+- Worklets support via `react-native-worklets-core` for real-time scanning
+- High FPS camera preview with debounced scan detection
 
 ### 2. **Intelligent Classification**
 The app automatically detects QR types:
